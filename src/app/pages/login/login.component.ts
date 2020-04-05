@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { logging } from 'protractor';
 import { UserModel } from '../../models/user.model';
 import { NgForm } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,7 @@ import { NgForm } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   user: UserModel
-  constructor() { }
+  constructor( private auth: AuthService) { }
 
   ngOnInit() {
     this.user = new UserModel();
@@ -20,5 +21,12 @@ export class LoginComponent implements OnInit {
     if(form.invalid){
       return
     }
+   
+    this.auth.loging(this.user)
+    .subscribe( res => {
+      console.log(res);
+    }, err => {
+      console.log(err.error.error.message);
+    })
   }  
 }
