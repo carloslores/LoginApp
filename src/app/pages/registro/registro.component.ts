@@ -12,6 +12,7 @@ import {Router} from "@angular/router";
 })
 export class RegistroComponent implements OnInit {
   user: UserModel;
+  remember: false;
 
   constructor( private auth: AuthService,
                private router: Router) { }
@@ -35,6 +36,9 @@ export class RegistroComponent implements OnInit {
     .subscribe( resp =>{
       console.log(resp);
       Swal.close();
+      if (this.remember) {
+        localStorage.setItem('email', this.user.email);
+      }
       this.router.navigateByUrl('/home');
     }, err => {
       console.log(err.error.error.message);
